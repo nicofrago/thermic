@@ -5,7 +5,7 @@ import copy
 import struct
 import sys
 from functools import reduce
-py_version = sys.info_version[0]
+py_version = sys.version_info[0]
 class HTPA:
 	def __init__(self, address, revision="2018"):
 		self.address = address
@@ -138,7 +138,7 @@ class HTPA:
 			self.PTAToffset = struct.unpack('f', reduce(lambda a,b: a+b, [chr(p) for p in PTAToffset]))[0]
 		else:
 			self.PTAToffset = struct.unpack('f', bytes(PTAToffset.tolist()))[0]
-			
+
 	def temperature_compensation(self, im, ptat):
 	    comp = np.zeros((32,32))
 
