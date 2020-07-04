@@ -4,7 +4,7 @@ import numpy as np
 import copy
 import struct
 import sys
-from functool import reduce
+from functools import reduce
 py_version = sys.info_version[0]
 class HTPA:
 	def __init__(self, address, revision="2018"):
@@ -126,12 +126,19 @@ class HTPA:
 		self.VddCalib = eeprom[0x0046] + (eeprom[0x0047] << 8)
 		self.Vdd = 3280.0
 		self.VddScaling = eeprom[0x004E]
-
 		PTATgradient = eeprom[0x0034:0x0038]
-		self.PTATgradient = struct.unpack('f', reduce(lambda a,b: a+b, [chr(p) for p in PTATgradient]))[0]
-		PTAToffset = eeprom[0x0038:0x003c]
-		self.PTAToffset = struct.unpack('f', reduce(lambda a,b: a+b, [chr(p) for p in PTAToffset]))[0]
+		if py_version < 3:
+			self.PTATgradient = struct.unpack('f', reduce(lambda a,b: a+b, [chr(p) for p in PTATgradient]))[0]
 
+		else:
+			self.PTATgradient = struct.unpack('f', bytes(PTATgradient.tolist()))[0]
+
+		PTAToffset = eeprom[0x0038:0x003c]
+		if py_version < 3:
+			self.PTAToffset = struct.unpack('f', reduce(lambda a,b: a+b, [chr(p) for p in PTAToffset]))[0]
+		else:
+			self.PTAToffset = struct.unpack('f', bytes(PTAToffset.tolist()))[0]
+			
 	def temperature_compensation(self, im, ptat):
 	    comp = np.zeros((32,32))
 
