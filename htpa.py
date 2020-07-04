@@ -116,8 +116,9 @@ class HTPA:
 			Pmax = struct.unpack('f', reduce(lambda a,b: a+b, [chr(p) for p in Pmax]))[0]
 
 		else:
+
 			Pmin = struct.unpack('f', bytes(Pmin.tolist()))[0]
-		  	Pmax = struct.unpack('f', bytes(Pmax.tolist()))[0]
+			Pmax = struct.unpack('f', bytes(Pmax.tolist()))[0]
 
 		self.PixC = (P * (Pmax - Pmin) / 65535. + Pmin) * (epsilon / 100) * float(GlobalGain) / 100
 
