@@ -119,7 +119,7 @@ class HTPA:
 
 			Pmin = struct.unpack('f', bytes(Pmin.tolist()))[0]
 			Pmax = struct.unpack('f', bytes(Pmax.tolist()))[0]
-
+		print(Pmin, Pmax)
 		self.PixC = (P * (Pmax - Pmin) / 65535. + Pmin) * (epsilon / 100) * float(GlobalGain) / 100
 
 		self.gradScale = eeprom[0x0008]
@@ -139,6 +139,7 @@ class HTPA:
 		else:
 			self.PTAToffset = struct.unpack('f', bytes(PTAToffset.tolist()))[0]
 
+		print(self.PTATgradient ,self.PTAToffset)
 	def temperature_compensation(self, im, ptat):
 	    comp = np.zeros((32,32))
 
@@ -189,7 +190,7 @@ class HTPA:
 				self.i2c.transfer(self.address, query)
 
 				if not (query[1].data[0] == expected):
-					# print("Not ready, received " + str(query[1].data[0]) + ", expected " + str(expected))
+					print("Not ready, received " + str(query[1].data[0]) + ", expected " + str(expected))
 					time.sleep(0.005)
 				else:
 					done = True
