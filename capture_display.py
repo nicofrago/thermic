@@ -1,5 +1,5 @@
 import numpy as np
-# import cv2
+import cv2
 from htpa import *
 
 i = 0
@@ -16,16 +16,15 @@ while(True):
 	im = dev.offset_compensation(im)
 	im = dev.sensitivity_compensation(im)
 
-	# resize and scale image to make it more viewable on raspberry pi screen
-	# im = cv2.resize(im, None, fx=12, fy=12)
-	# im -= np.min(im)
-	# im /= np.max(im)
-	#
-	# cv2.imshow('frame', im)
-	# i += 1
-	#
-	# if cv2.waitKey(1) & 0xFF == ord('q'):
-	# 	break
+	#resize and scale image to make it more viewable on raspberry pi screen
+	im = cv2.resize(im, None, fx=12, fy=12)
+	im -= np.min(im)
+	im /= np.max(im)
+	
+	cv2.imshow('frame', im)
+	i += 1
+	if cv2.waitKey(1) & 0xFF == ord('q'):
+	 	break
 
 dev.close()
 

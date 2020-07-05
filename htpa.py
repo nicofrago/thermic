@@ -12,7 +12,7 @@ class HTPA:
 		self.i2c = I2C("/dev/i2c-1")
 
 		if revision == "2018":
-			self.blockshift = 4
+                        self.blockshift = 4 
 		else:
 			self.blockshift = 2
 
@@ -190,8 +190,10 @@ class HTPA:
 				self.i2c.transfer(self.address, query)
 
 				if not (query[1].data[0] == expected):
-					print("Not ready, received " + str(query[1].data[0]) + ", expected " + str(expected))
-					time.sleep(0.005)
+                                        print(block)
+                                        print("Not ready, received " + str(query[1].data[0]) + ", expected " + str(expected))
+                                        time.sleep(0.005)
+                                        done = True
 				else:
 					done = True
 
